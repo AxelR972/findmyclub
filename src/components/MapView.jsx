@@ -7,7 +7,7 @@ function MapView({ clubs = [] }) {
     <MapContainer
       center={[45.75, 4.85]} 
       zoom={12}
-      className="w-full h-full"
+      className="w-full h-full flex-grow-1"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 

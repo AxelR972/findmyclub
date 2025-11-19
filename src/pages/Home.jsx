@@ -6,23 +6,23 @@ import AuthModal from "../User/AuthModal";
 
 
 function Home() {
-   const dummyClubs = [ 
-  { id: 1, name: "Club de Padel Central", lat: 45.75, lng: 4.85, distance: 0.5 }, //
-  { id: 2, name: "Padel Sports Club", lat: 45.76, lng: 4.83, distance: 1.2 }
-];
+    const dummyClubs = [
+        { id: 1, name: "Club de Padel Central", lat: 45.75, lng: 4.85, distance: 0.5 }, //
+        { id: 2, name: "Padel Sports Club", lat: 45.76, lng: 4.83, distance: 1.2 }
+    ];
 
 
 
     const [showAuthModal, setShowAuthModal] = useState(false); // État pour contrôler l'affichage du modal d'authentification
 
     return (
-        <div className="w-auto min-h-screen flex flex-col pb-[400px] md:pb-4"> 
+        <div className="w-auto min-h-screen flex flex-col pb-[400px] md:pb-4">
 
             {/* Header avec titre et bouton */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-6 shadow-md -m-4 mb-2">
                 <div className="flex justify-between items-center">
                     <h1 className="text-xl font-bold text-white">FindMyClub</h1>
-                    <button 
+                    <button
                         onClick={() => setShowAuthModal(true)}
                         className="px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
                     >
@@ -41,15 +41,13 @@ function Home() {
                 </div>
             </div>
 
-
-
             {/* Carte */}
             <div className="w-full h-[360px] sm:h-[360px] md:h-[500px] rounded-lg overflow-hidden shadow-md">
                 <MapView clubs={dummyClubs} />
             </div>
 
             {/* Section clubs */}
-            <div className="md:relative absolute bottom-0 left-0 w-full bg-slate-100 rounded-t-3xl shadow-lg p-6">
+            <div className="md:fixed fixed bottom-0 left-0 w-full h-[360px] md:h-auto md:flex-1 bg-slate-100 rounded-t-3xl shadow-lg p-6 overflow-y-auto">
 
                 {/* Petit trait gris */}
                 <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4 md:hidden"></div>

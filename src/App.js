@@ -1,5 +1,7 @@
 import MapView from './components/MapView';
-import Home from './pages/Home';
+import Home from './Pages/home';
+
+
 
 
 function App() {
