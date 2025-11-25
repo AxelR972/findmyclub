@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-shadow: 0 0 0 3px red inset;
-  
-}
 
 html, body {
   max-width: 100%;
@@ -21,9 +17,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   
 }
-
-
-
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

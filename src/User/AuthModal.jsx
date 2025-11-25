@@ -14,7 +14,7 @@ const AuthModal = ({ isOpen = true, onClose }) => { //Création du modal d'authe
 
     const handleChange = (e) => { //Gestion des changements dans les champs du formulaire
         setFormData({ //Mise à jour des données du formulaire avec les nouvelles valeurs
-            ...formData,
+            ...formData, //spred operator pour conserver les autres champs inchangés
             [e.target.name]: e.target.value
         });
     };
