@@ -47,7 +47,7 @@ function Home() {
             </div>
 
 
-            {/* Section clubs - Mobile: bottom sheet, Tablet+: left sidebar */}
+            {/* Section clubs - Mobile: affichage en bas, Tablette+: sidebar */}
             <div className="md:fixed md:left-0 md:top-[4.5rem] md:h-screen md:w-80 md:bg-white md:shadow-lg md:p-6 md:overflow-y-auto
                                         fixed bottom-0 left-0 w-full h-[360px] bg-slate-100 shadow-lg p-6 overflow-y-auto">
                 {/* Barre de recherche - visible uniquement sur tablette et desktop */}
@@ -65,7 +65,6 @@ function Home() {
                 <h2 className="text-lg font-semibold mb-4">Clubs à proximité</h2>
 
                 <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-x-visible pb-4">
-                    
                     {dummyClubs.map((club) => (
                         <ClubCard key={club.id} club={club} />
                     ))}
