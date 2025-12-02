@@ -7,8 +7,9 @@ import AuthModal from "../User/AuthModal";
 
 function Home() {
     const dummyClubs = [
-        { id: 1, name: "Club de Padel Central", lat: 45.75, lng: 4.85, distance: 0.5 }, //
-        { id: 2, name: "Padel Sports Club", lat: 45.76, lng: 4.83, distance: 1.2 }
+        { id: 1, name: "Club de Padel Central", lat: 45.75, lng: 4.85, distance: 0.5 },
+        { id: 2, name: "Padel Sports Club", lat: 45.76, lng: 4.83, distance: 1.2 },
+        { id: 3, name: "Padel Elite Paris", lat: 45.74, lng: 4.87, distance: 2.1 },
     ];
 
 
@@ -48,9 +49,9 @@ function Home() {
 
 
             {/* Section clubs - Mobile: affichage en bas, Tablette+: sidebar */}
-            <div className="md:fixed md:left-0 md:top-[4.5rem] md:h-screen md:w-80 md:bg-white md:shadow-lg md:p-6 md:overflow-y-auto
-                                        fixed bottom-0 left-0 w-full h-[360px] bg-slate-100 shadow-lg p-6 overflow-y-auto">
-                {/* Barre de recherche - visible uniquement sur tablette et desktop */}
+                        <div className="md:fixed md:left-0 md:top-[4.5rem] md:h-screen md:w-80 md:bg-white md:shadow-lg md:p-6 md:overflow-y-auto
+                                                    fixed bottom-0 left-0 w-full h-[360px] bg-slate-100 shadow-lg p-6 overflow-y-auto rounded-t-3xl md:rounded-none">
+                            {/* Barre de recherche - visible uniquement sur tablette et desktop */}
                 <div className="relative mb-4 hidden md:block">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <input

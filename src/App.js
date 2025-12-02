@@ -1,12 +1,16 @@
-import MapView from './components/MapView';
-import Home from './Pages/home';
+import Home from './Pages/home.jsx';
+import ClubDetails from './Pages/ClubDetails.jsx';
+import { Routes, Route } from 'react-router-dom';
+
 
 function App() {
   return (
-    <>
-      <Home />
-      <MapView />
-    </>
+    
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/club/:id" element={<ClubDetails />} />
+      </Routes>
+    
   );
 }
 

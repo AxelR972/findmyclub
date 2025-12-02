@@ -1,0 +1,45 @@
+
+[
+  {
+    "id": 1,
+    "name": "Club de Padel Central",
+    "distance": "0.5 km",
+    "rating": 4.8,
+    "reviews": 127,
+    "address": "15 Avenue des Sports, 75015 Paris",
+    "phone": "+33 1 23 45 67 89",
+    "email": "contact@padelcentral.fr",
+    "openHours": "Lun-Dim: 07:00 - 23:00",
+    "description": "Le Club de Padel Central offre une expérience de jeu exceptionnelle avec des terrains de qualité professionnelle. Situé au cœur de Paris, notre club dispose d'installations modernes et d'une équipe d'entraîneurs qualifiés.",
+    "courts": 6,
+    "amenities": ["Vestiaires", "Douches", "Bar", "Parking", "Pro Shop", "WiFi gratuit"]
+  },
+  {
+    "id": 2,
+    "name": "Padel Sports Club",
+    "distance": "1.2 km",
+    "rating": 4.6,
+    "reviews": 89,
+    "address": "28 Rue du Stade, 75016 Paris",
+    "phone": "+33 1 34 56 78 90",
+    "email": "info@padelsportsclub.fr",
+    "openHours": "Lun-Dim: 08:00 - 22:00",
+    "description": "Padel Sports Club est votre destination pour le padel dans un environnement convivial. Nous proposons des cours pour tous les niveaux et organisons régulièrement des tournois.",
+    "courts": 4,
+    "amenities": ["Vestiaires", "Douches", "Cafétéria", "Location de matériel", "Cours collectifs"]
+  },
+  {
+    "id": 3,
+    "name": "Padel Elite Paris",
+    "distance": "2.1 km",
+    "rating": 4.9,
+    "reviews": 156,
+    "address": "42 Boulevard du Tennis, 75017 Paris",
+    "phone": "+33 1 45 67 89 01",
+    "email": "hello@padelelite.fr",
+    "openHours": "Lun-Dim: 06:00 - 00:00",
+    "description": "Padel Elite Paris est le club haut de gamme de référence. Avec ses 8 terrains couverts et extérieurs, profitez d'une expérience premium avec service de conciergerie.",
+    "courts": 8,
+    "amenities": ["Spa", "Sauna", "Restaurant", "Bar lounge", "Coaching privé", "Boutique", "Service de conciergerie"]
+  }
+]
