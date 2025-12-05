@@ -13,8 +13,8 @@ function ClubCard({ club }) {
         {/* Contenu texte */}
         <div className="flex flex-1 flex-col justify-center gap-1">
           {/* Nom du club */}
-          <h3 className="text-md font-medium">{club.name}</h3>
-          
+          <h3 className="text-md font-medium truncate max-w-[150px] md:max-w-none md:whitespace-normal">{club.name}</h3>
+
           {/* Distance */}
           <p className="text-xs text-gray-500">{club.distance ?? "–"} km</p>
         </div>
