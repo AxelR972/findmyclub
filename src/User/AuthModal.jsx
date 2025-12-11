@@ -1,16 +1,22 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 
 
-const AuthModal = ({ isOpen = true, onClose }) => { //Création du modal d'authentification avec isOpen et onClose en props pour gérer son affichage
+const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création du modal d'authentification avec isOpen et onClose en props pour gérer son affichage
     const [isLogin, setIsLogin] = useState(true); //État pour basculer entre les vues de connexion et d'inscription
     const [formData, setFormData] = useState({ //État pour stocker les données du formulaire
         email: '',
         password: '',
         confirmPassword: '',
-        name: ''
+        username: ''
     });
+
+    const API = import.meta.env.VITE_API_URL; // Récupération de l'URL de l'API depuis les variables d'environnement
+
+    const [error, setError] = useState(""); //État pour gérer les erreurs d'authentification
+    const [loading, setLoading] = useState(false); //État pour gérer l'état de chargement lors de la soumission du formulaire
 
     const handleChange = (e) => { //Gestion des changements dans les champs du formulaire
         setFormData({ //Mise à jour des données du formulaire avec les nouvelles valeurs
@@ -19,10 +25,34 @@ const AuthModal = ({ isOpen = true, onClose }) => { //Création du modal d'authe
         });
     };
 
-    const handleSubmit = (e) => { //Gestion de la soumission du formulaire
+    const handleSubmit = async (e) => { //Gestion de la soumission du formulaire
         e.preventDefault();
-        // Logique d'authentification à implémenter
-        console.log(formData);
+        setError("");
+
+        // Validation côté client pour l'inscription
+        if (!isLogin && formData.password !== formData.confirmPassword) { // Vérifie si les mots de passe correspondent
+            setError("Les mots de passe ne correspondent pas.");
+            return;
+        }
+
+        const endpoint = `${API ? API : ''}/api/users/${isLogin ? 'login' : 'register'}`; // Détermine l'endpoint API en fonction du mode (connexion ou inscription)
+        const payload = isLogin // Envoie les données appropriées au serveur selon le mode (login ou register)
+            ? { email: formData.email, password: formData.password }
+            : { username: formData.username, email: formData.email, password: formData.password, confirmPassword: formData.confirmPassword };
+
+        try {
+            setLoading(true);
+            const res = await axios.post(endpoint, payload);
+            localStorage.setItem("token", res.data.token);
+            if (typeof onAuthSuccess === 'function') { 
+                onAuthSuccess(res.data); //Vérifie si onAuthSuccess est une fonction avant de l'appeler avec les données utilisateur
+            }
+            onClose(); // Ferme le modal après une connexion ou inscription réussie
+        } catch (err) {
+            setError(err.response?.data?.message || "Erreur lors de l'authentification.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -51,11 +81,11 @@ const AuthModal = ({ isOpen = true, onClose }) => { //Création du modal d'authe
                 <form onSubmit={handleSubmit} className="space-y-4"> {/* Formulaire d'authentification */}
                     {!isLogin && ( // Si l'utilisateur est en mode inscription, afficher le champ nom
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                             <input
                                 type="text"
-                                name="name"
-                                value={formData.name} 
+                                name="username"
+                                value={formData.username} 
                                 onChange={handleChange} // Mise à jour des données du formulaire lors du changement
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -101,14 +131,22 @@ const AuthModal = ({ isOpen = true, onClose }) => { //Création du modal d'authe
                         </div>
                     )}
                     
-                    <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium mt-6"> {/* Bouton de soumission */}
-                        {isLogin ? 'Se connecter' : "S'inscrire"} 
+                    {error && (
+                        <p className="text-sm text-red-600" role="alert">{error}</p>
+                    )}
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        aria-busy={loading}
+                        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {loading ? 'Veuillez patienter…' : (isLogin ? 'Se connecter' : "S'inscrire")} 
                     </button>
                 </form>
                 
                 <p className="text-center text-sm text-gray-600 mt-4"> 
                     {isLogin ? "Pas encore de compte ? " : "Déjà un compte ? "} {/* Texte dynamique pour basculer entre les vues Inscription et Connexion */}
-                    <span onClick={() => setIsLogin(!isLogin)} className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium"> 
+                    <span onClick={() => { setIsLogin(!isLogin); setError(""); }} className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium"> 
                         {isLogin ? "S'inscrire" : "Se connecter"}
                     </span>
                 </p>
