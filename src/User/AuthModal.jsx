@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 
-
 const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création du modal d'authentification avec isOpen et onClose en props pour gérer son affichage
     const [isLogin, setIsLogin] = useState(true); //État pour basculer entre les vues de connexion et d'inscription
     const [formData, setFormData] = useState({ //État pour stocker les données du formulaire
@@ -12,8 +11,6 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
         confirmPassword: '',
         username: ''
     });
-
-    const API = import.meta.env.VITE_API_URL; // Récupération de l'URL de l'API depuis les variables d'environnement
 
     const [error, setError] = useState(""); //État pour gérer les erreurs d'authentification
     const [loading, setLoading] = useState(false); //État pour gérer l'état de chargement lors de la soumission du formulaire
@@ -35,7 +32,7 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
             return;
         }
 
-        const endpoint = `${API ? API : ''}/api/users/${isLogin ? 'login' : 'register'}`; // Détermine l'endpoint API en fonction du mode (connexion ou inscription)
+        const endpoint = `/api/users/${isLogin ? 'login' : 'register'}`; // Utilise le proxy Vite en dev et le même domaine en prod
         const payload = isLogin // Envoie les données appropriées au serveur selon le mode (login ou register)
             ? { email: formData.email, password: formData.password }
             : { username: formData.username, email: formData.email, password: formData.password, confirmPassword: formData.confirmPassword };
@@ -44,7 +41,7 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
             setLoading(true);
             const res = await axios.post(endpoint, payload);
             localStorage.setItem("token", res.data.token);
-            if (typeof onAuthSuccess === 'function') { 
+            if (typeof onAuthSuccess === 'function') {
                 onAuthSuccess(res.data); //Vérifie si onAuthSuccess est une fonction avant de l'appeler avec les données utilisateur
             }
             onClose(); // Ferme le modal après une connexion ou inscription réussie
@@ -61,13 +58,13 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
         return () => {
             document.body.style.overflow = original; // Restauration du style d'origine lors de la fermeture du modal
         };
-    }, [isOpen, onClose]); 
+    }, [isOpen, onClose]);
 
     if (!isOpen) return null; // Ne rien retourner si le modal n'est pas ouvert
 
     return createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center" onClick={onClose}> {/* fond semi-transparent qui ferme le modal lorsqu'on clique dessus */}
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" /> 
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
             <div
                 role="dialog"
                 aria-modal="true"
@@ -75,9 +72,9 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
                 onClick={(e) => e.stopPropagation()} // Empêche la fermeture du modal lorsqu'on clique à l'intérieur
             >
                 <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold" onClick={onClose}>&times;</button> {/* Bouton de fermeture */}
-                
+
                 <h2 className="text-2xl font-bold mb-6 text-center">{isLogin ? 'Connexion' : 'Inscription'}</h2> {/* Titre dynamique si l'utilisateur est en mode connexion ou inscription */}
-                
+
                 <form onSubmit={handleSubmit} className="space-y-4"> {/* Formulaire d'authentification */}
                     {!isLogin && ( // Si l'utilisateur est en mode inscription, afficher le champ nom
                         <div>
@@ -85,15 +82,15 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
                             <input
                                 type="text"
                                 name="username"
-                                value={formData.username} 
+                                value={formData.username}
                                 onChange={handleChange} // Mise à jour des données du formulaire lors du changement
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                     )}
-                    
-                    <div> 
+
+                    <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Email</label> {/* Champ email */}
                         <input
                             type="email"
@@ -104,7 +101,7 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    
+
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label> {/* Champ mot de passe */}
                         <input
@@ -116,7 +113,7 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    
+
                     {!isLogin && ( // Si l'utilisateur est en mode inscription, afficher le champ de confirmation du mot de passe
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe</label>
@@ -130,7 +127,7 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
                             />
                         </div>
                     )}
-                    
+
                     {error && (
                         <p className="text-sm text-red-600" role="alert">{error}</p>
                     )}
@@ -140,13 +137,13 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
                         aria-busy={loading}
                         className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {loading ? 'Veuillez patienter…' : (isLogin ? 'Se connecter' : "S'inscrire")} 
+                        {loading ? 'Veuillez patienter…' : (isLogin ? 'Se connecter' : "S'inscrire")}
                     </button>
                 </form>
-                
-                <p className="text-center text-sm text-gray-600 mt-4"> 
+
+                <p className="text-center text-sm text-gray-600 mt-4">
                     {isLogin ? "Pas encore de compte ? " : "Déjà un compte ? "} {/* Texte dynamique pour basculer entre les vues Inscription et Connexion */}
-                    <span onClick={() => { setIsLogin(!isLogin); setError(""); }} className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium"> 
+                    <span onClick={() => { setIsLogin(!isLogin); setError(""); }} className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium">
                         {isLogin ? "S'inscrire" : "Se connecter"}
                     </span>
                 </p>
