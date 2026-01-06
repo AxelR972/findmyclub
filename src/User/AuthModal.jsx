@@ -32,7 +32,7 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
             return;
         }
 
-        const endpoint = `/api/users/${isLogin ? 'login' : 'register'}`; // Utilise le proxy Vite en dev et le même domaine en prod
+        const endpoint = `/api/users/${isLogin ? 'login' : 'register'}`; // Utilise l'endpoint approprié selon le mode login ou register
         const payload = isLogin // Envoie les données appropriées au serveur selon le mode (login ou register)
             ? { email: formData.email, password: formData.password }
             : { username: formData.username, email: formData.email, password: formData.password, confirmPassword: formData.confirmPassword };
