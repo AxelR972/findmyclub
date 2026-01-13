@@ -14,6 +14,28 @@ Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
+## 🧪 Tests
+
+This project uses **Vitest** and **React Testing Library** for frontend unit testing.
+
+### Tools
+- Vitest
+- @testing-library/react
+- @testing-library/jest-dom
+
+### Test coverage
+- Unit tests for custom hooks
+- Basic component rendering tests
+
+### Example tests
+- Checking the initial state of the `useGeolocation` hook
+- Ensuring React components render without crashing
+
+### Run tests
+
+### `npm run test`
+
+
 ### `npm run build`
 
 Builds the app for production to the `dist` folder.\
