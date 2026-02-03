@@ -3,9 +3,8 @@ import { renderHook } from "@testing-library/react";
 import { useGeolocation } from "./useGeolocation";
 
 beforeEach(() => { // 
-  global.navigator.geolocation = { // on simulie l'API geolocation car on ne peut pas l'utiliser directement en test
-    watchPosition: vi.fn(), 
-    clearWatch: vi.fn(),// on vérifie juste que ces fonctions sont appelées, pas leur fonctionnement interne
+  global.navigator.geolocation = { // on simule l'API geolocation car on ne peut pas l'utiliser directement en test
+    getCurrentPosition: vi.fn(), 
   };
 });
 

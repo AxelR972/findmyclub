@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 
+// Composant pour centrer la carte sur la position de l'utilisateur
 function UserPosition({ userPosition }) {
   const map = useMap();
 
@@ -11,7 +12,7 @@ function UserPosition({ userPosition }) {
     }
   }, [userPosition, map]);
 
-  return null; // Ce composant ne "rend" rien, il agit sur la carte
+  return null; 
 }
 
 export default function MapView({ clubs = [], userPosition }) {
@@ -24,8 +25,8 @@ export default function MapView({ clubs = [], userPosition }) {
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {userPosition && <UserPosition userPosition={userPosition} />}
 
-      {clubs.map((club) => (
-        <Marker key={club.id} position={[club.lat, club.lng]}>
+      {Array.isArray(clubs) && clubs.map((club) => (
+        <Marker key={club.id} position={[club.lat, club.lng]} >
           <Popup>
             <strong>{club.name}</strong>
             <br />
