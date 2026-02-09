@@ -10,7 +10,7 @@ function ClubDetails() {
  useEffect(() => {
   setLoading(true); // Indique que le chargement commence
   setError(null); // Réinitialise les erreurs avant une nouvelle requête
-  fetch('/data/clubs.json') // Récupère les données des clubs depuis le fichier JSON
+  fetch('/backend/src/routes/clubs.js') // Récupère les données des clubs depuis le fichier JSON
     .then(res => res.json()) // Récupère la réponse au format JSON
     .then(data =>
       setClub(data.find(c => String(c.id) === String(id)) || null) // Trouve le club correspondant à l'ID ou null si non trouvé

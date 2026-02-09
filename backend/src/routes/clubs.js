@@ -49,13 +49,37 @@ router.get("/padel", async (req, res) => { // Récupère les clubs de padel auto
     const data = await response.json();
 
     // Transformer les données pour avoir les bonnes propriétés
-    const transformedElements = data.elements.map((element) => ({
+   const transformedElements = data.elements
+  .map((element) => {
+    const lat = element.lat ?? element.center?.lat;
+    const lng = element.lon ?? element.center?.lon;
+
+    if (!lat || !lng) return null;
+
+    const tags = element.tags || {}; // Les tags contiennent les informations sur le club
+
+    return {
       id: element.id,
-      lat: element.lat || element.center?.lat,
-      lng: element.lon || element.center?.lon,
-      name: element.tags?.name || "Terrain de padel",
-      ...element.tags,
-    }));
+      name: tags.name || tags.operator || "Terrain de padel",
+      lat,
+      lng,
+
+      address: [
+        tags["addr:housenumber"],
+        tags["addr:street"],
+        tags["addr:postcode"],
+        tags["addr:city"]
+      ]
+        .filter(Boolean)
+        .join(" ") || null,
+
+      phone: tags.phone || null,
+      website: tags.website || null,
+      email: tags.email || null,
+      openingHours: tags.opening_hours || null,
+    };
+  })
+  .filter(Boolean);
 
     // On élimine les doublons basés sur le nom du club
     const uniqueClubs = [];
