@@ -25,9 +25,16 @@ function Home() {
                 setClubsLoading(true);
                 setClubsError(null);
 
+                // Ajouter un timeout de 40 secondes au fetch
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 40000);
+
                 const res = await fetch(
-                    `/api/clubs/padel?lat=${position.lat}&lng=${position.lng}`
+                    `/api/clubs/padel?lat=${position.lat}&lng=${position.lng}`,
+                    { signal: controller.signal }
                 ); // Requête à l'API backend pour récupérer les clubs de padel autour de la position de l'utilisateur
+
+                clearTimeout(timeoutId);
 
                 if (!res.ok) {
                     throw new Error(`HTTP Error: ${res.status}`); // Gestion des erreurs HTTP

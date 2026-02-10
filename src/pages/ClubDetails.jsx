@@ -1,23 +1,40 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useGeolocation } from '../hooks/useGeolocation';
 
 function ClubDetails() { 
   const { id } = useParams(); // Récupère l'ID du club depuis l'URL
+  const { position } = useGeolocation(); // Récupère la position de l'utilisateur à l'aide du hook useGeolocation
   const [club, setClub] = useState(null); // État pour stocker les détails du club
   const [loading, setLoading] = useState(true); // État pour indiquer le chargement des données
   const [error, setError] = useState(null); // État pour stocker les erreurs éventuelles
 
  useEffect(() => {
-  setLoading(true); // Indique que le chargement commence
-  setError(null); // Réinitialise les erreurs avant une nouvelle requête
-  fetch('/backend/src/routes/clubs.js') // Récupère les données des clubs depuis le fichier JSON
-    .then(res => res.json()) // Récupère la réponse au format JSON
-    .then(data =>
-      setClub(data.find(c => String(c.id) === String(id)) || null) // Trouve le club correspondant à l'ID ou null si non trouvé
-    )
-    .catch(() => setError("Erreur")) // En cas d'erreur, met à jour l'état error
-    .finally(() => setLoading(false)); // Indique que le chargement est terminé
+  setLoading(true);
+  setError(null);
+
+  // Si on n'a pas la position, on utilise une position par défaut (centre de France)
+  const lat = position?.lat || 46.5;
+  const lng = position?.lng || 2.5;
+
+  const url = `http://localhost:5000/api/clubs/padel/${id}?lat=${lat}&lng=${lng}`;
+  
+  
+  fetch(url) // Requête à l'API pour récupérer les détails du club en fonction de son ID et de la position de l'utilisateur
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`); // Si la réponse n'est pas OK, on lance une erreur
+      return res.json();
+    })
+    .then((data) => {
+      setClub(data); 
+    })
+    .catch((e) => {
+      console.error('Error fetching club:', e);
+      setError(e.message || "Erreur");
+    })
+    .finally(() => setLoading(false));
 }, [id]);
+
 
 
   const distanceLabel = (d) => { // Fonction pour formater l'affichage de la distance
@@ -53,7 +70,7 @@ function ClubDetails() {
                 </div>
                 <div>
                   <p><span className="text-gray-500">Distance:</span> {distanceLabel(club.distance)}</p>
-                  <p><span className="text-gray-500">Horaires:</span> {club.openHours || '—'}</p>
+                  <p><span className="text-gray-500">Horaires:</span> {club.openingHours || '—'}</p>
                   <p><span className="text-gray-500">Terrains:</span> {club.courts ?? '—'}</p>
                 </div>
               </div>
