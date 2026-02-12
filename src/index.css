@@ -6,6 +6,7 @@
 html, body {
   max-width: 100%;
   overflow-x: hidden;
+  @apply bg-dark-900;
 }
  
 body {
@@ -15,7 +16,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+  @apply text-gray-100;
 }
 
 code {

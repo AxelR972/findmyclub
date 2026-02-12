@@ -68,82 +68,82 @@ const AuthModal = ({ isOpen = true, onClose, onAuthSuccess }) => { //Création d
             <div
                 role="dialog"
                 aria-modal="true"
-                className="relative z-10 bg-white rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 shadow-xl"
+                className="relative z-10 bg-dark-800 rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl border border-dark-700"
                 onClick={(e) => e.stopPropagation()} // Empêche la fermeture du modal lorsqu'on clique à l'intérieur
             >
-                <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold" onClick={onClose}>&times;</button> {/* Bouton de fermeture */}
+                <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-200 text-2xl font-bold transition-colors" onClick={onClose}>&times;</button> {/* Bouton de fermeture */}
 
-                <h2 className="text-2xl font-bold mb-6 text-center">{isLogin ? 'Connexion' : 'Inscription'}</h2> {/* Titre dynamique si l'utilisateur est en mode connexion ou inscription */}
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-50">{isLogin ? 'Connexion' : 'Inscription'}</h2> {/* Titre dynamique si l'utilisateur est en mode connexion ou inscription */}
 
                 <form onSubmit={handleSubmit} className="space-y-4"> {/* Formulaire d'authentification */}
                     {!isLogin && ( // Si l'utilisateur est en mode inscription, afficher le champ nom
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">Username</label>
                             <input
                                 type="text"
                                 name="username"
                                 value={formData.username}
                                 onChange={handleChange} // Mise à jour des données du formulaire lors du changement
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-dark-600 rounded-md bg-dark-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-600 focus:border-transparent"
                             />
                         </div>
                     )}
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label> {/* Champ email */}
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Email</label> {/* Champ email */}
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange} // Mise à jour des données du formulaire lors du changement
                             required
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-dark-600 rounded-md bg-dark-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-600 focus:border-transparent"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label> {/* Champ mot de passe */}
+                        <label className="block text-sm font-medium text-gray-300 mb-1">Mot de passe</label> {/* Champ mot de passe */}
                         <input
                             type="password"
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
                             required
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-dark-600 rounded-md bg-dark-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-600 focus:border-transparent"
                         />
                     </div>
 
                     {!isLogin && ( // Si l'utilisateur est en mode inscription, afficher le champ de confirmation du mot de passe
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe</label>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">Confirmer le mot de passe</label>
                             <input
                                 type="password"
                                 name="confirmPassword"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-dark-600 rounded-md bg-dark-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-600 focus:border-transparent"
                             />
                         </div>
                     )}
 
                     {error && (
-                        <p className="text-sm text-red-600" role="alert">{error}</p>
+                        <p className="text-sm text-red-400 bg-red-900 bg-opacity-20 p-3 rounded-md" role="alert">{error}</p>
                     )}
                     <button
                         type="submit"
                         disabled={loading}
                         aria-busy={loading}
-                        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-accent-600 to-primary-600 text-white py-2 px-4 rounded-md hover:from-accent-700 hover:to-primary-700 transition-all font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                     >
                         {loading ? 'Veuillez patienter…' : (isLogin ? 'Se connecter' : "S'inscrire")}
                     </button>
                 </form>
 
-                <p className="text-center text-sm text-gray-600 mt-4">
+                <p className="text-center text-sm text-gray-400 mt-4">
                     {isLogin ? "Pas encore de compte ? " : "Déjà un compte ? "} {/* Texte dynamique pour basculer entre les vues Inscription et Connexion */}
-                    <span onClick={() => { setIsLogin(!isLogin); setError(""); }} className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium">
+                    <span onClick={() => { setIsLogin(!isLogin); setError(""); }} className="text-accent-400 hover:text-accent-300 cursor-pointer font-medium transition-colors">
                         {isLogin ? "S'inscrire" : "Se connecter"}
                     </span>
                 </p>
